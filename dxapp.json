@@ -1,115 +1,146 @@
 {
-  "name": "eggd_<tool_name>",
-  "title": "eggd_<tool_name>",
-  "summary": "description",
+  "name": "eggd_care",
+  "title": "eggd_care",
+  "summary": "DNAnexus app to run the UCSC Treehouse Comparative Analysis of RNA Expression (CARE) outlier pipeline on a sample processed by eggd_treehouse_pipeline",
   "dxapi": "1.0.0",
   "version": "1.0.0",
   "properties": {
     "githubRelease": "1.0.0"
-    },
+  },
   "inputSpec": [
     {
-      "name": "input_file",
+      "name": "rsem_genes_results",
+      "label": "RSEM genes results file",
       "class": "file",
-      "optional": true,
-      "label": "Name of input file",
-      "patterns": [
-        "*.tsv", "*.vcf", "*.bed", "*.xlsx"
-      ],
-      "help": "Description"
-    },
-    {
-      "name": "input_file_array",
-      "class": "array:file",
       "optional": false,
-      "label": "Name of input file array",
-      "suggestions": [
-        {
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "path": "/folder1/folder2/"
-        }
+      "patterns": [
+        "*.results",
+        "*.tsv"
       ],
-      "help": "Description"
+      "help": "rsem_genes.results file produced by eggd_treehouse_pipeline (located under RSEM/ in the expression output)"
     },
     {
-      "name": "input_boolean",
-      "class": "boolean",
-      "optional": true,
-      "default": true,
-      "label": "Name of field",
-      "help": "Description"
-    },
-    {
-      "name": "input_string",
+      "name": "sample_id",
+      "label": "Sample ID",
       "class": "string",
-      "label": "Input string field name",
+      "optional": false,
+      "help": "Unique identifier for the focus sample. Used to name output files and to structure the CARE inputs directory"
+    },
+    {
+      "name": "diagnosis",
+      "label": "Harmonised diagnosis",
+      "class": "string",
       "optional": true,
-      "default": "default string input",
-      "help": "Description"
+      "default": "",
+      "help": "Harmonised diagnosis of the focus sample. Must match a value in the 'disease' column of the Treehouse compendium clinical data (clinical_TumorCompendium_v10_PolyA_2019-07-25.tsv). Leave blank to skip disease-specific outlier analysis and run pan-disease only"
+    },
+    {
+      "name": "care_docker",
+      "label": "CARE Docker image",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.tar.gz",
+        "*.tar"
+      ],
+      "help": "Compressed Docker image (.tar.gz) of the UCSC CARE pipeline. Must be built from https://github.com/UCSC-Treehouse/CARE at the desired release tag"
+    },
+    {
+      "name": "compendium",
+      "label": "Treehouse tumour compendium",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.tgz",
+        "*.tar.gz"
+      ],
+      "help": "Treehouse tumour compendium archive (e.g. TumorCompendium_v10_PolyA.tgz). Download from https://xena.treehouse.gi.ucsc.edu/download/CARE/TumorCompendium_v10_PolyA.tgz"
+    },
+    {
+      "name": "references",
+      "label": "CARE reference files",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.tgz",
+        "*.tar.gz"
+      ],
+      "help": "CARE reference archive (e.g. TreehouseReferences-2020-03-30.tgz). Download from https://xena.treehouse.gi.ucsc.edu/download/CARE/TreehouseReferences-2020-03-30.tgz"
+    },
+    {
+      "name": "care_version",
+      "label": "CARE release version tag",
+      "class": "string",
+      "optional": true,
+      "default": "0.17.1.0",
+      "help": "CARE release version used to build the Docker image. Used only for record-keeping in log output"
     }
   ],
   "outputSpec": [
     {
-      "name": "output_file",
+      "name": "summary_html",
+      "label": "Summary HTML report",
       "class": "file",
-      "label": "output file",
+      "optional": false,
       "patterns": [
-        "*.tsv", "*.vcf", "*.bed", "*.xlsx"
+        "*.html"
       ],
-      "help": "Description"
+      "help": "Human-readable HTML summary of CARE outlier analysis results (Summary.html)"
     },
     {
-      "name": "output_files_array",
+      "name": "slides_html",
+      "label": "Slides HTML report",
+      "class": "file",
+      "optional": false,
+      "patterns": [
+        "*.html"
+      ],
+      "help": "Slide-format HTML report of CARE outlier analysis results (Slides.html)"
+    },
+    {
+      "name": "output_json_files",
+      "label": "CARE output JSON files",
       "class": "array:file",
-      "label": "output files",
+      "optional": false,
+      "help": "JSON files produced by each CARE notebook step, containing programmatic results of the outlier analysis"
+    },
+    {
+      "name": "output_notebooks",
+      "label": "Executed Jupyter notebooks",
+      "class": "array:file",
       "optional": true,
-      "help": "Description"
+      "patterns": [
+        "*.ipynb"
+      ],
+      "help": "Executed Jupyter notebooks (.ipynb) from each analysis step, for inspection and audit"
     }
-
   ],
   "runSpec": {
     "timeoutPolicy": {
       "*": {
-        "hours": 2
+        "hours": 4
       }
     },
     "distribution": "Ubuntu",
     "release": "20.04",
     "version": "0",
     "interpreter": "bash",
-    "file": "src/code.sh",
-    "assetDepends": [
-      {
-        "name": "bedtools",
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "folder": "/app_assets/bedtools/bedtools_v2.30.0",
-        "version": "2.30.0"
-      },
-      {
-        "name": "htslib",
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "folder": "/app_assets/htslib/htslib_v1.15.0",
-        "version": "1.15.0"
-      },
-      {
-        "name": "python_packages",
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "folder": "/app_assets/python_packages/python_packages_v1.1.0",
-        "version": "1.1.0"
-      }
-    ]
+    "file": "src/code.sh"
   },
-  "developers":[
+  "developers": [
     "org-emee_1"
   ],
   "authorizedUsers": [
     "org-emee_1"
   ],
+  "access": {
+    "project": "CONTRIBUTE"
+  },
   "regionalOptions": {
     "aws:eu-central-1": {
       "systemRequirements": {
         "*": {
-          "instanceType": "mem1_ssd1_v2_x2"
+          "instanceType": "mem2_ssd1_v2_x8"
         }
       }
     }
