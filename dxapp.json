@@ -13,18 +13,16 @@
       "label": "RSEM genes results file",
       "class": "file",
       "optional": false,
-      "patterns": [
-        "*.results",
-        "*.tsv"
-      ],
+      "patterns": ["*.results"],
       "help": "rsem_genes.results file produced by eggd_treehouse_pipeline (located under RSEM/ in the expression output)"
     },
     {
-      "name": "sample_id",
-      "label": "Sample ID",
-      "class": "string",
+      "name": "umend_qc_tsv",
+      "label": "UMEND_QC output file in tsv format",
+      "class": "file",
       "optional": false,
-      "help": "Unique identifier for the focus sample. Used to name output files and to structure the CARE inputs directory"
+      "patterns": ["*.tsv"],
+      "help": "bam_umend_qc.tsv file produced by eggd_treehouse_pipeline (located under qc/ in the qc output)"
     },
     {
       "name": "diagnosis",
