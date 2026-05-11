@@ -35,12 +35,13 @@
       "help": "Harmonised diagnosis of the focus sample. Must match a value in the 'disease' column of the Treehouse compendium clinical data (clinical_TumorCompendium_v10_PolyA_2019-07-25.tsv). Leave blank to skip disease-specific outlier analysis and run pan-disease only"
     },
     {
-      "name": "care_docker_tar",
-      "label": "CARE Docker image",
+      "name": "care_source_code_tar",
+      "label": "CARE Docker source code v0.17.1.0",
       "class": "file",
       "optional": false,
       "patterns": ["*.tar.gz"],
-      "help": "Compressed Docker image (.tar.gz) of the UCSC CARE pipeline. Must be built from https://github.com/UCSC-Treehouse/CARE at the desired release tag"
+      "default" : { "$dnanexus_link": "file-" },
+      "help": "DNA Nexus file for Compressed source code (.tar.gz) of the UCSC CARE pipeline. From https://github.com/UCSC-Treehouse/CARE - tag 0.17.1.0"
     },
     {
       "name": "compendium",
@@ -51,7 +52,8 @@
         "*.tgz",
         "*.tar.gz"
       ],
-      "help": "Treehouse tumour compendium archive (e.g. TumorCompendium_v10_PolyA.tgz). Download from https://xena.treehouse.gi.ucsc.edu/download/CARE/TumorCompendium_v10_PolyA.tgz"
+      "default" : { "$dnanexus_link": "file-" },
+      "help": "DNA Nexus file for Treehouse tumour compendium archive (e.g. TumorCompendium_v10_PolyA.tgz). Downloaded from https://xena.treehouse.gi.ucsc.edu/download/CARE/TumorCompendium_v10_PolyA.tgz"
     },
     {
       "name": "references",
@@ -62,7 +64,8 @@
         "*.tgz",
         "*.tar.gz"
       ],
-      "help": "CARE reference archive (e.g. TreehouseReferences-2020-03-30.tgz). Download from https://xena.treehouse.gi.ucsc.edu/download/CARE/TreehouseReferences-2020-03-30.tgz"
+      "default" : { "$dnanexus_link": "file-" },
+      "help": "DNA Nexus file for CARE reference archive (e.g. TreehouseReferences-2020-03-30.tgz). Downloaded from https://xena.treehouse.gi.ucsc.edu/download/CARE/TreehouseReferences-2020-03-30.tgz"
     }
   ],
   "outputSpec": [
