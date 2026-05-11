@@ -35,14 +35,11 @@
       "help": "Harmonised diagnosis of the focus sample. Must match a value in the 'disease' column of the Treehouse compendium clinical data (clinical_TumorCompendium_v10_PolyA_2019-07-25.tsv). Leave blank to skip disease-specific outlier analysis and run pan-disease only"
     },
     {
-      "name": "care_docker",
+      "name": "care_docker_tar",
       "label": "CARE Docker image",
       "class": "file",
       "optional": false,
-      "patterns": [
-        "*.tar.gz",
-        "*.tar"
-      ],
+      "patterns": ["*.tar.gz"],
       "help": "Compressed Docker image (.tar.gz) of the UCSC CARE pipeline. Must be built from https://github.com/UCSC-Treehouse/CARE at the desired release tag"
     },
     {
@@ -66,14 +63,6 @@
         "*.tar.gz"
       ],
       "help": "CARE reference archive (e.g. TreehouseReferences-2020-03-30.tgz). Download from https://xena.treehouse.gi.ucsc.edu/download/CARE/TreehouseReferences-2020-03-30.tgz"
-    },
-    {
-      "name": "care_version",
-      "label": "CARE release version tag",
-      "class": "string",
-      "optional": true,
-      "default": "0.17.1.0",
-      "help": "CARE release version used to build the Docker image. Used only for record-keeping in log output"
     }
   ],
   "outputSpec": [
