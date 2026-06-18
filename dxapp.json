@@ -17,12 +17,12 @@
       "help": "rsem_genes.results file produced by eggd_treehouse_pipeline (located under RSEM/ in the expression output)"
     },
     {
-      "name": "umend_qc_tsv",
-      "label": "UMEND_QC output file in tsv format",
+      "name": "umend_qc_json",
+      "label": "UMEND_QC output file in json format",
       "class": "file",
       "optional": false,
-      "patterns": ["*.tsv"],
-      "help": "bam_umend_qc.tsv file produced by eggd_treehouse_pipeline (located under qc/ in the qc output)"
+      "patterns": ["*.json"],
+      "help": "bam_umend_qc.json file produced by eggd_treehouse_pipeline (located under qc/ in the qc output)"
     },
     {
       "name": "diagnosis",
@@ -46,11 +46,8 @@
       "label": "Treehouse tumour compendium",
       "class": "file",
       "optional": false,
-      "patterns": [
-        "*.tgz",
-        "*.tar.gz"
-      ],
-      "default" : { "$dnanexus_link": "file-" },
+      "patterns": ["*.tgz"],
+      "default" : { "$dnanexus_link": "file-J8kz2p84b9v9Jp7550yxgfzz" },
       "help": "DNA Nexus file for Treehouse tumour compendium archive (e.g. TumorCompendium_v10_PolyA.tgz). Downloaded from https://xena.treehouse.gi.ucsc.edu/download/CARE/TumorCompendium_v10_PolyA.tgz"
     },
     {
@@ -62,47 +59,17 @@
         "*.tgz",
         "*.tar.gz"
       ],
-      "default" : { "$dnanexus_link": "file-" },
+      "default" : { "$dnanexus_link": "file-J8kz2p04b9v9Jp7550yxgfzx" },
       "help": "DNA Nexus file for CARE reference archive (e.g. TreehouseReferences-2020-03-30.tgz). Downloaded from https://xena.treehouse.gi.ucsc.edu/download/CARE/TreehouseReferences-2020-03-30.tgz"
     }
   ],
   "outputSpec": [
     {
-      "name": "summary_html",
-      "label": "Summary HTML report",
-      "class": "file",
-      "optional": false,
-      "patterns": [
-        "*.html"
-      ],
-      "help": "Human-readable HTML summary of CARE outlier analysis results (Summary.html)"
-    },
-    {
-      "name": "slides_html",
-      "label": "Slides HTML report",
-      "class": "file",
-      "optional": false,
-      "patterns": [
-        "*.html"
-      ],
-      "help": "Slide-format HTML report of CARE outlier analysis results (Slides.html)"
-    },
-    {
-      "name": "output_json_files",
-      "label": "CARE output JSON files",
+      "name": "CARE_full_output",
+      "label": "Full output from CARE",
       "class": "array:file",
       "optional": false,
-      "help": "JSON files produced by each CARE notebook step, containing programmatic results of the outlier analysis"
-    },
-    {
-      "name": "output_notebooks",
-      "label": "Executed Jupyter notebooks",
-      "class": "array:file",
-      "optional": true,
-      "patterns": [
-        "*.ipynb"
-      ],
-      "help": "Executed Jupyter notebooks (.ipynb) from each analysis step, for inspection and audit"
+      "help": "All output files. folder and subfolders from CARE"
     }
   ],
   "runSpec": {
