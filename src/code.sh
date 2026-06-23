@@ -119,17 +119,17 @@ download_and_stage_input(){
 
     # move qc and expression in the right folder:
     mkdir -p /home/dnanexus/secondary && cd /home/dnanexus/secondary
-    mv ${expr_folder_name}/ /ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
+    mv /home/dnanexus/${expr_folder_name}/ ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
     mkdir ucsctreehouse-bam-umend-qc-0.0.0-0000000
-    mv /home/dnanexus/in/umend_qc_json/*.json /home/dnanexus/secondary/ucsctreehouse-bam-umend-qc-0.0.0-0000000
+    mv /home/dnanexus/in/umend_qc_json/*.json ucsctreehouse-bam-umend-qc-0.0.0-0000000/
     cd
 
     # create inputs and sample folder and move expression and qc data there
-    mkdir -p /home/dnanexus/inputs && cd inputs
+    mkdir -p /home/dnanexus/inputs && cd /home/dnanexus/inputs
     sample=$(basename "$eggd_treehouse_expression_folder" | cut -d '-' -f 2)
     mkdir ${sample}
     cd
-    mv secondary/ inputs/${sample}
+    mv /home/dnanexus/secondary/ /home/dnanexus/inputs/${sample}/
    
    # add diagnosis if present
     if [[ -n "$diagnosis" ]]; then
