@@ -85,12 +85,12 @@ validate_expression_folder(){
     fi
 
     if [[ ! -e ${local_expr_fold}/RSEM/QC/fastQC/R1_fastqc.html ]]; then
-        echo "ERROR: RSEM/QC/fastQC/R1_fastqc.html not found" >&2
+        echo "ERROR: QC/fastQC/R1_fastqc.html not found" >&2
         return 1
     fi
 
     if [[ ! -e ${local_expr_fold}/RSEM/QC/STAR/Log.final.out ]]; then
-        echo "ERROR: RSEM/QC/STAR/Log.final.out not found" >&2
+        echo "ERROR: QC/STAR/Log.final.out not found" >&2
         return 1
     fi
 }
