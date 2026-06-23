@@ -84,12 +84,12 @@ validate_expression_folder(){
         echo "Warning: RSEM/rsem_isoforms.results - Isoforms analysis will not be possible" >&2
     fi
 
-    if [[ ! -e ${local_expr_fold}/RSEM/QC/fastQC/R1_fastqc.html ]]; then
+    if [[ ! -e ${local_expr_fold}/QC/fastQC/R1_fastqc.html ]]; then
         echo "ERROR: QC/fastQC/R1_fastqc.html not found" >&2
         return 1
     fi
 
-    if [[ ! -e ${local_expr_fold}/RSEM/QC/STAR/Log.final.out ]]; then
+    if [[ ! -e ${local_expr_fold}/QC/STAR/Log.final.out ]]; then
         echo "ERROR: QC/STAR/Log.final.out not found" >&2
         return 1
     fi
