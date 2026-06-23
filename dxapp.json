@@ -21,7 +21,7 @@
       "class": "file",
       "optional": false,
       "patterns": ["*.json"],
-      "help": "bam_umend_qc.json file produced by eggd_treehouse_pipeline (located under qc/ in the qc output)"
+      "help": "bam_umend_qc.json file produced by qc functionality of eggd_treehouse_pipeline"
     },
     {
       "name": "diagnosis",
