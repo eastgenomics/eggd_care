@@ -90,7 +90,9 @@
     "org-emee_1"
   ],
   "access": {
-    "project": "CONTRIBUTE"
+    "project": "CONTRIBUTE",
+    "allProjects": "UPLOAD"
+  }    
   },
   "regionalOptions": {
     "aws:eu-central-1": {
