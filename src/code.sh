@@ -113,12 +113,13 @@ download_and_stage_input(){
     
     # check expression folder
     echo "Validate expression folder for three essential files and one optional file"
-    validate_expression_folder $eggd_treehouse_expression_folder
+    dx download -r $eggd_treehouse_expression_folder/
+    expr_folder_name=$(basename $eggd_treehouse_expression_folder | cut -d '/' -f -1)
+    validate_expression_folder ${expr_folder_name}
 
     # move qc and expression in the right folder:
-    mkdir -p /home/dnanexus/secondary && cd /home/dnanexus/secondary 
-    dx download -r "$eggd_treehouse_expression_folder"
-    mv "$eggd_treehouse_expression_folder" /ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
+    mkdir -p /home/dnanexus/secondary && cd /home/dnanexus/secondary
+    mv ${expr_folder_name}/ /ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
     mkdir ucsctreehouse-bam-umend-qc-0.0.0-0000000
     mv /home/dnanexus/in/umend_qc_json/*.json /home/dnanexus/secondary/ucsctreehouse-bam-umend-qc-0.0.0-0000000
     cd
