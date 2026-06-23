@@ -9,12 +9,11 @@
   },
   "inputSpec": [
     {
-      "name": "rsem_genes_results",
-      "label": "RSEM genes results file",
-      "class": "file",
+      "name": "eggd_treehouse_expression_folder",
+      "label": "Folder path name for expression results from eggd_treehouse_pipeline",
+      "class": "string",
       "optional": false,
-      "patterns": ["*.results"],
-      "help": "rsem_genes.results file produced by eggd_treehouse_pipeline (located under RSEM/ in the expression output)"
+      "help": "Folder path name for Expression results outputted by eggd_treehouse_pipeline"
     },
     {
       "name": "umend_qc_json",
@@ -69,7 +68,7 @@
       "label": "Full output from CARE",
       "class": "array:file",
       "optional": false,
-      "help": "All output files. folder and subfolders from CARE"
+      "help": "All output files, folders, and subfolders from CARE"
     }
   ],
   "runSpec": {
