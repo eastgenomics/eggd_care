@@ -92,7 +92,6 @@
   "access": {
     "project": "CONTRIBUTE",
     "allProjects": "UPLOAD"
-  }    
   },
   "regionalOptions": {
     "aws:eu-central-1": {
