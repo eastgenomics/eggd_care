@@ -101,8 +101,11 @@ download_and_stage_input(){
     dx-download-all-inputs
 
     mkdir -p /home/dnanexus/resources
-    tar -xzf /home/dnanexus/in/compendium/*TumorCompendium*.tgz  -C /home/dnanexus/resources/
-    tar -xzf /home/dnanexus/in/references/*TreehouseReferences*.tgz  -C /home/dnanexus/resources/
+    mv /home/dnanexus/in/compendium/*.tgz /home/dnanexus/resources/
+    ls -lthr /home/dnanexus/resources/
+    mkdir -p /home/dnanexus/references
+    mv /home/dnanexus/in/references/*.tgz /home/dnanexus/references/
+    ls -lthr /home/dnanexus/references/
 
     # check umend_qc_json file
     ##Expected format:
@@ -148,9 +151,10 @@ run_care_docker() {
     docker run \
     --rm \
     --user $UID \
-    -v 'pwd'/:/work \
-    -v 'pwd'/manifest.tsv:/work/manifest.tsv:ro \
-    -v 'pwd'/inputs:/work/inputs:ro \
+    -v /:/work \
+    -v /manifest.tsv:/work/manifest.tsv:ro \
+    -v /inputs:/work/inputs:ro \
+    -v /references:/work/references:ro \
     ${docker_image_id}  run
 }
 
