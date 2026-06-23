@@ -155,6 +155,7 @@ run_care_docker() {
     -v /manifest.tsv:/work/manifest.tsv:ro \
     -v /inputs:/work/inputs:ro \
     -v /references:/work/references:ro \
+    -v /resources:/work/resources:ro \
     ${docker_image_id}  run
 }
 
