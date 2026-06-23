@@ -37,7 +37,7 @@
       "class": "file",
       "optional": false,
       "patterns": ["*.tar.gz"],
-      "default" : { "$dnanexus_link": "file-" },
+      "default" : { "$dnanexus_link": "file-J81Yxb04b9v0gjkf2y2J5gVY" },
       "help": "DNA Nexus file for Compressed source code (.tar.gz) of the UCSC CARE pipeline. From https://github.com/UCSC-Treehouse/CARE - tag 0.17.1.0"
     },
     {
@@ -96,7 +96,7 @@
     "aws:eu-central-1": {
       "systemRequirements": {
         "*": {
-          "instanceType": "mem2_ssd1_v2_x8"
+          "instanceType": "mem1_ssd1_v2_x8"
         }
       }
     }
