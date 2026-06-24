@@ -150,13 +150,13 @@ download_and_stage_input(){
     
     # check expression folder
     echo "Validate expression folder for three essential files and one optional file"
-    dx download -r $eggd_treehouse_expression_folder/
-    expr_folder_name=$(basename $eggd_treehouse_expression_folder | cut -d '/' -f -1)
-    validate_expression_folder ${expr_folder_name}
+    dx download -r "${eggd_treehouse_expression_folder}/"
+    expr_folder_name=$(basename "$eggd_treehouse_expression_folder")
+    validate_expression_folder "${expr_folder_name}"
 
     # move qc and expression in the right folder:
     mkdir -p /home/dnanexus/secondary && cd /home/dnanexus/secondary
-    mv /home/dnanexus/${expr_folder_name}/ ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
+    mv "/home/dnanexus/${expr_folder_name}/" ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
     mkdir ucsctreehouse-bam-umend-qc-0.0.0-0000000
     mv /home/dnanexus/in/umend_qc_json/*.json ucsctreehouse-bam-umend-qc-0.0.0-0000000/
     cd
@@ -164,9 +164,9 @@ download_and_stage_input(){
     # create inputs and sample folder and move expression and qc data there
     mkdir -p /home/dnanexus/inputs && cd /home/dnanexus/inputs
     sample=$(basename "$eggd_treehouse_expression_folder" | cut -d '-' -f 2)
-    mkdir ${sample}
+    mkdir "${sample}"
     cd
-    mv /home/dnanexus/secondary/ /home/dnanexus/inputs/${sample}/
+    mv /home/dnanexus/secondary/ "/home/dnanexus/inputs/${sample}/"
    
    # add diagnosis if present
     if [[ -n "$diagnosis" ]]; then
