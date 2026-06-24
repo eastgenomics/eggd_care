@@ -39,6 +39,7 @@ Several files are created. Among these, files with outlier gene results are:
 - log.txt: log file of the CARE pipeline.
 The tool also outputted results with regards druggable genes and geneset analyses: drug-relevant_expression_info_<SAMPLE_ID>.tsv; 
 druggableGeneAggregation.txt; top5_gsea_results.txt.
+
 Other output files included:
 - One Jupyter Notebook for each step of the analysis containing the code that has been executed.
 - The programmatic output of each Jupyter Notebook is stored in the correspondingly-numbered JSON file.
