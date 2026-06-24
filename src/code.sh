@@ -4,7 +4,7 @@
 #
 # Inputs
 #   rsem_genes_results      : rsem_genes.results file from eggd_treehouse_pipeline (expression function)
-#   umend_qc                : bam_umend_qc.tsv file from eggd_treehouse_pipeline (qc function)
+#   umend_qc                : bam_umend_qc.json file from eggd_treehouse_pipeline (qc function)
 #   diagnosis               : harmonised disease diagnosis (optional)
 #   care_source_code_tar    : CARE source code (.tar.gz)
 #   compendium              : Treehouse tumour compendium archive (.tgz)
@@ -26,7 +26,9 @@ validate_qc_json() {
     # Takes a UMEND_QC.json file and check that the required keys are present and they have the right format
     # Excepted format:
     ## {"input":"readDist.txt","uniqMappedNonDupeReadCount":1708,"estExonicUniqMappedNonDupeReadCount":1554.175,"qc":"FAIL"}
-    
+    ## Arguments:
+        ## $umend_qc 
+
     local json_file="$1"
 
     # Check file exists and is valid JSON
@@ -77,6 +79,9 @@ validate_expression_folder(){
     ##check that QC includes:
     ## QC/STAR/Log.final.out - essential to have more comprehensive QC on the sample
     ## QC/fastQC/R1_fastqc.html - essential to have more comprehensive QC on the sample
+
+    ## Arguments:
+        ## $rsem_genes_results
     
     local_expr_fold="$1"
     if [[ ! -e ${local_expr_fold}/RSEM/rsem_genes.results ]]; then
@@ -101,6 +106,8 @@ validate_expression_folder(){
 
 flatten_dir(){
     #Flatten a folder by removing an intermediate folder
+    #Arguments:
+        ## upstream directory_path in which move the contents in the folder to be flattened
     root_dir=$1
     echo ">>> Folder to flatten contents:"
     ls -lthr $root_dir
@@ -124,6 +131,8 @@ download_and_stage_input(){
     #Download input files and stage them correctly
     #Flatten compendium and references folder to have the right folder structure required by CARE docker
     #Run validation of umend_qc_json file and expression folder
+    #Create manifest.tsv and add diagnosis if provided as input
+    
     echo ">>> Downloading inputs"
     dx-download-all-inputs
     
@@ -170,7 +179,7 @@ download_and_stage_input(){
 
 run_care_docker() {
     # Run the CARE pipeline with docker image
-    # Local folders need to be mounted to be seen by Docker
+    # Local folders need to be mounted to be seen by Docker and arguments needs to be specified
     echo ">>> Run CARE docker"
 
     docker load -i /home/dnanexus/in/care_source_code_tar/*.tar.gz
@@ -212,7 +221,7 @@ upload_outputs() {
 
 
 main() {
-    # Run the main pipeline with the function in order
+    # Run the main pipeline with the functions in order
 
     echo "=========================================="
     echo "eggd_care: starting CARE outlier analysis in DNA Nexus"
