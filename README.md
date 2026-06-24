@@ -51,6 +51,7 @@ Other output files included:
   - Duplicate reads/Total reads;
   - RNA integrity number; Expressed genes (*1000);
   - Pan-cancer up outliers (count); 95th percentile of genes in sample (log2(tpm+1)).
+
 Summary.html and Slides.html are automatically populated with the high-level results of the analysis, but need human intervention to display the clinical data. See [CARE pipeline](https://github.com/UCSC-Treehouse/CARE/tree/25ad888d8b67e80b68e5943d11664fe720e08755) for further information about customisation.
 
 
