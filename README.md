@@ -36,11 +36,14 @@ Several files are created. Among these, files with outlier gene results are:
 - expression_plots/<genesymbol_pancancer.png>: expression plot for outlier pan-cancer gene(s).
 - expression_plots/<genesymbol_pandisease.png>: expression plot for outlier pan-disease gene(s).
 - Correlations_<SAMPLE_ID>_vs_tumor_v10_polyA.tsv: pairwise correlation between single sample and tumour compendium.
-- log.txt: log file of the CARE pipeline.
-The tool also outputted results with regards druggable genes and geneset analyses: drug-relevant_expression_info_<SAMPLE_ID>.tsv; 
-druggableGeneAggregation.txt; top5_gsea_results.txt.
+
+The tool also outputted results with regards druggable genes and geneset analyses: 
+- drug-relevant_expression_info_<SAMPLE_ID>.tsv;
+- druggableGeneAggregation.txt;
+- top5_gsea_results.txt.
 
 Other output files included:
+- log.txt: log file of the CARE pipeline.
 - One Jupyter Notebook for each step of the analysis containing the code that has been executed.
 - The programmatic output of each Jupyter Notebook is stored in the correspondingly-numbered JSON file.
 - Summary.html and Slides.html: human-readable format, of the JSON files. The Summary.html includes QC results for normal range of:
