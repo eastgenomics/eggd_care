@@ -1,5 +1,5 @@
 <!-- dx-header -->
-# AmazingApp (DNAnexus Platform App)
+# eggd_care
 DNA Nexus app of the [CARE pipeline](https://github.com/UCSC-Treehouse/CARE/tree/25ad888d8b67e80b68e5943d11664fe720e08755)
 
 <!-- Insert a description of your app here -->
