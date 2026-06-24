@@ -61,7 +61,7 @@ dx run app-J8x5PG84zFqfgyZfxBgYQYkG \
   -ieggd_treehouse_expression_folder="project-<project-ID>:/path_to_eggdtreehousepipeline_expression_merged" \
   -iumend_qc_json=file-<file-ID> \
   -idiagnosis="Acute myeloid leukemia" \
-  --destination project-<projec-ID>:/path_to_folder/ \
+  --destination project-<project-ID>:/path_to_folder/ \
   -y --brief
 ```
 
