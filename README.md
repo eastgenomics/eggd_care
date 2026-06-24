@@ -12,11 +12,7 @@ N-of-1 analysis for gene expression in a cancer sample compared to a tumour comp
 ## What are the inputs?
 | Input | Class | Description |
 |---|---|---|
-| `eggd_treehouse_expression_folder` | array:file | Folder path name for expression results outputted by eggd_treehouse_pipeline. Essential files: 
-- RSEM/rsem_genes.results
-- QC/STAR/Log.final.out
-- QC/fastQC/R1_fastqc.html.
-Optional file for isoforms analysis: RSEM/rsem_isoforms.results.
+| `eggd_treehouse_expression_folder` | array:file | Folder path name for expression results outputted by eggd_treehouse_pipeline. Essential files: /rsem_genes.results, QC/STAR/Log.final.out, QC/fastQC/R1_fastqc.html Optional file for isoforms analysis: RSEM/rsem_isoforms.results.
 | `umend_qc_json` | file | bam_umend_qc.json file produced by qc functionality of eggd_treehouse_pipeline.
 | `diagnosis` | string | Harmonised diagnosis of the focus sample. Must match a value in the 'disease' column of the Treehouse compendium clinical data (clinical_TumorCompendium_v10_PolyA_2019-07-25.tsv). Leave blank to skip disease-specific outlier analysis and run pan-disease only.
 | `care_source_code_tar` | file | DNA Nexus file for Compressed source code (.tar.gz) of the UCSC CARE pipeline - [tag 0.17.1.0](https://hub.docker.com/layers/ucsctreehouse/care/0.17.1.0/images/sha256-52eaaf6804101a74a105043c5926b39d2bbe903a54f0923cb77b9f6ba85f4a6b).
