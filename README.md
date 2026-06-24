@@ -28,9 +28,9 @@ N-of-1 analysis for gene expression in a cancer sample compared to a tumour comp
 ## What are the outputs?
 | Output | Class | Description |
 |---|---|---|
-| `CARE_full_output` | array:file | All files and subfolders from 'outputs/<SAMPLE_ID>' outputted by CARE.
+| `CARE_full_output` | array:file | All files and subfolders from 'outputs/<SAMPLE_ID>/' outputted by CARE.
 
-The results are stored in the folder 'outputs/<SAMPLE_ID>'.
+The results are stored in the folder 'outputs/<SAMPLE_ID>/' and it is uploaded in the project of choice as '<project-ID><SAMPLE_ID>/'.
 Several files are created. Among these, files with outlier gene results are:
 - outlier_results_<SAMPLE_ID>: this file contains the report of the N-of-1 analysis.
 - expression_plots/<genesymbol_pancancer.png>: expression plot for outlier pan-cancer gene(s).
