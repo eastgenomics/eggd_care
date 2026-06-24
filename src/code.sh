@@ -23,6 +23,10 @@ set -e -x -o pipefail
 
 
 validate_qc_json() {
+    # Takes a UMEND_QC.json file and check that the required keys are present and they have the right format
+    # Excepted format:
+    ## {"input":"readDist.txt","uniqMappedNonDupeReadCount":1708,"estExonicUniqMappedNonDupeReadCount":1554.175,"qc":"FAIL"}
+    
     local json_file="$1"
 
     # Check file exists and is valid JSON
@@ -65,7 +69,7 @@ validate_qc_json() {
 }
 
 validate_expression_folder(){
-    #check it contains RSEM, QC subfolders
+    #Check it contains files in RSEM and QC subfolders
 
     ##check that RSEM includes:
     ## rsem_genes.results - this is essential
@@ -96,21 +100,18 @@ validate_expression_folder(){
 }
 
 download_and_stage_input(){
-    #Downaload input files and stage them correctly
+    #Download input files and stage them correctly
+    #Run validation of umend_qc_json file and expression folder
     echo ">>> Downloading inputs"
     dx-download-all-inputs
 
     mkdir -p /home/dnanexus/resources
-    mv /home/dnanexus/in/compendium/*.tgz /home/dnanexus/resources/
-    ls -lthr /home/dnanexus/resources/
-    mkdir -p /home/dnanexus/references
-    mv /home/dnanexus/in/references/*.tgz /home/dnanexus/references/
-    ls -lthr /home/dnanexus/references/
+    mv /home/dnanexus/in/references/*.tgz /home/dnanexus/resources/
 
-    # check umend_qc_json file
-    ##Expected format:
-    ## {"input":"readDist.txt","uniqMappedNonDupeReadCount":1708,"estExonicUniqMappedNonDupeReadCount":1554.175,"qc":"FAIL"}
+
+    mv /home/dnanexus/in/compendium/*.tgz /home/dnanexus/resources/
     
+    # check umend_qc_json file
     echo "Validate QC .json file"
     validate_qc_json /home/dnanexus/in/umend_qc_json/*.json
     
@@ -144,6 +145,8 @@ download_and_stage_input(){
 
 
 run_care_docker() {
+    # Run the CARE pipeline with docker image
+    # Local folders need to be mounted to be seen by Docker
     echo ">>> Run CARE docker"
     docker load -i /home/dnanexus/in/care_source_code_tar/*.tar.gz
     docker_image_id=$(docker images --format="{{.Repository}} {{.ID}}" | grep "^ucsctreehouse/care" | cut -d' ' -f2)
@@ -151,11 +154,10 @@ run_care_docker() {
     docker run \
     --rm \
     --user $UID \
-    -v /:/work \
-    -v /manifest.tsv:/work/manifest.tsv:ro \
-    -v /inputs:/work/inputs:ro \
-    -v /references:/work/references:ro \
-    -v /resources:/work/resources:ro \
+    -v /home/dnanexus/:/work \
+    -v /home/dnanexus/manifest.tsv:/work/manifest.tsv:ro \
+    -v /home/dnanexus//inputs:/work/inputs:ro \
+    -v /home/dnanexus/resources:/work/resources:ro \
     ${docker_image_id}  run
 }
 
@@ -164,7 +166,7 @@ upload_outputs() {
     # Stage and upload outputs to DNAnexus.
     echo ">>> Staging CARE outputs..."
     mkdir -p /home/dnanexus/out/CARE_full_output  
-    mv outputs/* /home/dnanexus/out/CARE_full_output
+    mv -r outputs/* /home/dnanexus/out/CARE_full_output
 
     echo ">>> Uploading CARE outputs..."
     dx-upload-all-outputs --parallel
