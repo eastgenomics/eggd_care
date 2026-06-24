@@ -32,7 +32,7 @@ N-of-1 analysis for gene expression in a cancer sample compared to a tumour comp
 
 The results are stored in the folder 'outputs/<SAMPLE_ID>'.
 Several files are created. Among these, files with outlier gene results are:
-- outlier_results_<sample-name>: this file contains the report of the N-of-1 analysis.
+- outlier_results_<SAMPLE_ID>: this file contains the report of the N-of-1 analysis.
 - expression_plots/<genesymbol_pancancer.png>: expression plot for outlier pan-cancer gene(s).
 - expression_plots/<genesymbol_pandisease.png>: expression plot for outlier pan-disease gene(s).
 - Correlations_<SAMPLE_ID>_vs_tumor_v10_polyA.tsv: pairwise correlation between single sample and tumour compendium.
