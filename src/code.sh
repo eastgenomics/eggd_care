@@ -156,8 +156,9 @@ download_and_stage_input(){
 
     # move qc and expression in the right folder:
     mkdir -p /home/dnanexus/secondary && cd /home/dnanexus/secondary
+    mkdir -p ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
     mv "/home/dnanexus/${expr_folder_name}/" ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
-    mkdir ucsctreehouse-bam-umend-qc-0.0.0-0000000
+    mkdir -p ucsctreehouse-bam-umend-qc-0.0.0-0000000
     mv /home/dnanexus/in/umend_qc_json/*.json ucsctreehouse-bam-umend-qc-0.0.0-0000000/
     cd
 
