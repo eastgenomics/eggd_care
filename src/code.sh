@@ -99,17 +99,41 @@ validate_expression_folder(){
     fi
 }
 
+flatten_dir(){
+    #Flatten a folder by removing an intermediate folder
+    root_dir=$1
+    echo ">>> Folder to flatten contents:"
+    ls -lthr $root_dir
+    if [ "$(ls -1 ${root_dir} | wc -l)" -eq 1 ]; then
+        toflatten_dir=$(ls ${root_dir})
+        if [ -d "${root_dir}/${toflatten_dir}" ]; then
+            echo ">>> Flattening cohort structure"
+            #shopt -s to include hidden files in for the mv command
+            shopt -s dotglob
+            mv ${root_dir}/${toflatten_dir}/* ${root_dir}
+            rmdir ${root_dir}/${toflatten_dir}
+            #shopt -u to reset default way for the mv command
+            shopt -u dotglob
+            echo ">>> Folder contents after flatten:"
+            ls -lthr ${root_dir}
+        fi
+    fi
+}
+
 download_and_stage_input(){
     #Download input files and stage them correctly
+    #Flatten compendium and references folder to have the right folder structure required by CARE docker
     #Run validation of umend_qc_json file and expression folder
     echo ">>> Downloading inputs"
     dx-download-all-inputs
+    
+    mkdir -p /home/dnanexus/references
+    tar -vxzf /home/dnanexus/in/references/*.tgz -C /home/dnanexus/references
+    flatten_dir /home/dnanexus/references
 
-    mkdir -p /home/dnanexus/resources
-    mv /home/dnanexus/in/references/*.tgz /home/dnanexus/resources/
-
-
-    mv /home/dnanexus/in/compendium/*.tgz /home/dnanexus/resources/
+    mkdir -p /home/dnanexus/cohort
+    tar -vxzf /home/dnanexus/in/compendium/*.tgz -C /home/dnanexus/cohort
+    flatten_dir /home/dnanexus/cohort
     
     # check umend_qc_json file
     echo "Validate QC .json file"
@@ -148,17 +172,30 @@ run_care_docker() {
     # Run the CARE pipeline with docker image
     # Local folders need to be mounted to be seen by Docker
     echo ">>> Run CARE docker"
+
     docker load -i /home/dnanexus/in/care_source_code_tar/*.tar.gz
-    docker_image_id=$(docker images --format="{{.Repository}} {{.ID}}" | grep "^ucsctreehouse/care" | cut -d' ' -f2)
+    docker_image_id=$(docker images --format="{{.Repository}} {{.ID}}" \
+        | grep "^ucsctreehouse/care" \
+        | cut -d' ' -f2)
+
+    mkdir -p /home/dnanexus/workdir
+    mkdir -p /home/dnanexus/rollup
+    mkdir -p /home/dnanexus/workdir/outputs 
 
     docker run \
-    --rm \
-    --user $UID \
-    -v /home/dnanexus/:/work \
-    -v /home/dnanexus/manifest.tsv:/work/manifest.tsv:ro \
-    -v /home/dnanexus//inputs:/work/inputs:ro \
-    -v /home/dnanexus/resources:/work/resources:ro \
-    ${docker_image_id}  run
+      --rm \
+      --user $UID \
+      -v /home/dnanexus/workdir:/work \
+      -v /home/dnanexus/manifest.tsv:/work/manifest.tsv:ro \
+      -v /home/dnanexus/inputs:/work/inputs:ro \
+      -v /home/dnanexus/cohort:/work/cohort:ro \
+      -v /home/dnanexus/references:/work/references:ro \
+      ${docker_image_id} pass-args \
+        --inputs /work/inputs \
+        --cohort /work/cohort \
+        --references /work/references \
+        --outputs /work/outputs \
+        --rollup /work/outputs
 }
 
 
@@ -166,7 +203,7 @@ upload_outputs() {
     # Stage and upload outputs to DNAnexus.
     echo ">>> Staging CARE outputs..."
     mkdir -p /home/dnanexus/out/CARE_full_output  
-    mv -r outputs/* /home/dnanexus/out/CARE_full_output
+    mv /home/dnanexus/workdir/outputs/* /home/dnanexus/out/CARE_full_output
 
     echo ">>> Uploading CARE outputs..."
     dx-upload-all-outputs --parallel
