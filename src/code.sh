@@ -235,3 +235,5 @@ main() {
     echo ">>> eggd_care: complete."
     date
 }
+
+main "$@"
