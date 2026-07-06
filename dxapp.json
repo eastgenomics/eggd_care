@@ -1,115 +1,100 @@
 {
-  "name": "eggd_<tool_name>",
-  "title": "eggd_<tool_name>",
-  "summary": "description",
+  "name": "eggd_care",
+  "title": "eggd_care",
+  "summary": "DNAnexus app to run the UCSC Treehouse Comparative Analysis of RNA Expression (CARE) outlier pipeline on a sample processed by eggd_treehouse_pipeline",
   "dxapi": "1.0.0",
   "version": "1.0.0",
-  "properties": {
-    "githubRelease": "1.0.0"
-    },
+  "whatsNew": {
+    "v1.0.0": "Initial release of the wrapper app for CARE pipeline in DNAnexus"
+  },
   "inputSpec": [
     {
-      "name": "input_file",
-      "class": "file",
-      "optional": true,
-      "label": "Name of input file",
-      "patterns": [
-        "*.tsv", "*.vcf", "*.bed", "*.xlsx"
-      ],
-      "help": "Description"
-    },
-    {
-      "name": "input_file_array",
-      "class": "array:file",
-      "optional": false,
-      "label": "Name of input file array",
-      "suggestions": [
-        {
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "path": "/folder1/folder2/"
-        }
-      ],
-      "help": "Description"
-    },
-    {
-      "name": "input_boolean",
-      "class": "boolean",
-      "optional": true,
-      "default": true,
-      "label": "Name of field",
-      "help": "Description"
-    },
-    {
-      "name": "input_string",
+      "name": "eggd_treehouse_expression_folder",
+      "label": "Folder path name for expression results from eggd_treehouse_pipeline",
       "class": "string",
-      "label": "Input string field name",
+      "optional": false,
+      "help": "Folder path name for expression results outputted by eggd_treehouse_pipeline"
+    },
+    {
+      "name": "umend_qc_json",
+      "label": "UMEND_QC output file in json format",
+      "class": "file",
+      "optional": false,
+      "patterns": ["*.json"],
+      "help": "bam_umend_qc.json file produced by qc functionality of eggd_treehouse_pipeline"
+    },
+    {
+      "name": "diagnosis",
+      "label": "Harmonised diagnosis",
+      "class": "string",
       "optional": true,
-      "default": "default string input",
-      "help": "Description"
+      "default": "",
+      "help": "Harmonised diagnosis of the focus sample. Must match a value in the 'disease' column of the Treehouse compendium clinical data (clinical_TumorCompendium_v10_PolyA_2019-07-25.tsv). Leave blank to skip disease-specific outlier analysis and run pan-disease only"
+    },
+    {
+      "name": "care_source_code_tar",
+      "label": "CARE Docker source code v0.17.1.0",
+      "class": "file",
+      "optional": false,
+      "patterns": ["*.tar.gz"],
+      "default" : { "$dnanexus_link": "file-J81Yxb04b9v0gjkf2y2J5gVY" },
+      "help": "DNA Nexus file for Compressed source code (.tar.gz) of the UCSC CARE pipeline. From https://github.com/UCSC-Treehouse/CARE - tag 0.17.1.0"
+    },
+    {
+      "name": "compendium",
+      "label": "Treehouse tumour compendium",
+      "class": "file",
+      "optional": false,
+      "patterns": ["*.tgz"],
+      "default" : { "$dnanexus_link": "file-J8kz2p84b9v9Jp7550yxgfzz" },
+      "help": "DNA Nexus file for Treehouse tumour compendium archive (e.g. TumorCompendium_v10_PolyA.tgz). Downloaded from https://xena.treehouse.gi.ucsc.edu/download/CARE/TumorCompendium_v10_PolyA.tgz"
+    },
+    {
+      "name": "references",
+      "label": "CARE reference files",
+      "class": "file",
+      "optional": false,
+      "patterns": ["*.tgz"],
+      "default" : { "$dnanexus_link": "file-J8kz2p04b9v9Jp7550yxgfzx" },
+      "help": "DNA Nexus file for CARE reference archive (e.g. TreehouseReferences-2020-03-30.tgz). Downloaded from https://xena.treehouse.gi.ucsc.edu/download/CARE/TreehouseReferences-2020-03-30.tgz"
     }
   ],
   "outputSpec": [
     {
-      "name": "output_file",
-      "class": "file",
-      "label": "output file",
-      "patterns": [
-        "*.tsv", "*.vcf", "*.bed", "*.xlsx"
-      ],
-      "help": "Description"
-    },
-    {
-      "name": "output_files_array",
+      "name": "CARE_full_output",
+      "label": "Full output from CARE",
       "class": "array:file",
-      "label": "output files",
-      "optional": true,
-      "help": "Description"
+      "optional": false,
+      "help": "All output files, folders, and subfolders from CARE"
     }
-
   ],
   "runSpec": {
     "timeoutPolicy": {
       "*": {
-        "hours": 2
+        "hours": 4
       }
     },
     "distribution": "Ubuntu",
     "release": "20.04",
     "version": "0",
     "interpreter": "bash",
-    "file": "src/code.sh",
-    "assetDepends": [
-      {
-        "name": "bedtools",
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "folder": "/app_assets/bedtools/bedtools_v2.30.0",
-        "version": "2.30.0"
-      },
-      {
-        "name": "htslib",
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "folder": "/app_assets/htslib/htslib_v1.15.0",
-        "version": "1.15.0"
-      },
-      {
-        "name": "python_packages",
-        "project": "project-Fkb6Gkj433GVVvj73J7x8KbV",
-        "folder": "/app_assets/python_packages/python_packages_v1.1.0",
-        "version": "1.1.0"
-      }
-    ]
+    "file": "src/code.sh"
   },
-  "developers":[
+  "developers": [
     "org-emee_1"
   ],
   "authorizedUsers": [
     "org-emee_1"
   ],
+  "access": {
+    "project": "CONTRIBUTE",
+    "allProjects": "UPLOAD"
+  },
   "regionalOptions": {
     "aws:eu-central-1": {
       "systemRequirements": {
         "*": {
-          "instanceType": "mem1_ssd1_v2_x2"
+          "instanceType": "mem1_ssd1_v2_x8"
         }
       }
     }
