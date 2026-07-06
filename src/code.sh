@@ -134,7 +134,7 @@ download_and_stage_input(){
     #Create manifest.tsv and add diagnosis if provided as input
     
     echo ">>> Downloading inputs"
-    dx-download-all-inputs
+    dx-download-all-inputs --parallel
     
     mkdir -p /home/dnanexus/references
     tar -vxzf /home/dnanexus/in/references/*.tgz -C /home/dnanexus/references
@@ -156,7 +156,6 @@ download_and_stage_input(){
 
     # move qc and expression in the right folder:
     mkdir -p /home/dnanexus/secondary && cd /home/dnanexus/secondary
-    mkdir -p ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
     mv "/home/dnanexus/${expr_folder_name}/" ucsc_cgl-rnaseq-cgl-pipeline-0.0.0-0000000/
     mkdir -p ucsctreehouse-bam-umend-qc-0.0.0-0000000
     mv /home/dnanexus/in/umend_qc_json/*.json ucsctreehouse-bam-umend-qc-0.0.0-0000000/
