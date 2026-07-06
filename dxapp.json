@@ -4,8 +4,8 @@
   "summary": "DNAnexus app to run the UCSC Treehouse Comparative Analysis of RNA Expression (CARE) outlier pipeline on a sample processed by eggd_treehouse_pipeline",
   "dxapi": "1.0.0",
   "version": "1.0.0",
-  "properties": {
-    "githubRelease": "1.0.0"
+  "whatsNew": {
+    "v1.0.0": "Initial release of the wrapper app for CARE pipeline in DNAnexus"
   },
   "inputSpec": [
     {
